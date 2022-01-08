@@ -13,10 +13,11 @@ def get_image(url, issue_text, filename):
             image = get_webpage(url)
             time.sleep(1)
             urlretrieve(url, filename+'.jpg')
-        except:
+        except Exception:
             pass
     else:
         return
+
 
 def get_webpage(url):
     try:
@@ -50,17 +51,13 @@ class Comic:
 
     # return issues links
     def get_issue_links(self):
-        # self.issues = []
         soup = BeautifulSoup(get_webpage(self.get_url()), 'html.parser')
-        # return array
         divs = soup.findAll('div', attrs={'class': 'chapter'})
         for div in divs:
             link = div.find('a')
             # get all pages
             self.issue_links.append(link.get('href')+'/all')
         return self.issue_links
-
-    # get pages per issue
 
     def get_url(self):
         return self.url
@@ -75,19 +72,18 @@ class Comic:
             # get issue
             issue_text = issue.get_issue_text()[0]
             comic_path = path + '/' + issue_text
-            # print(comic_path)
             if not os.path.exists(comic_path):
                 os.makedirs(comic_path)
-            # print(issue)
             pages = issue.get_pages()
             issue.download_pages(comic_path, pages)
             print('downloading {}'.format(issue_text))
-        # os.makedirs()
+
 
 class Issue(Comic):
     def __init__(self, url):
         self.url = url
         self.text = self.get_issue_text()
+        self.pages = []
 
     def get_url(self):
         return self.url
@@ -95,7 +91,6 @@ class Issue(Comic):
     def get_pages(self):
         # url = url + '&readType=1'
         webpage = get_webpage(self.get_url())
-        self.pages = []
         soup = BeautifulSoup(webpage, 'html.parser')
         divs = soup.findAll('div',attrs={'class':'page-chapter'})
         for div in divs:
@@ -118,6 +113,7 @@ class Issue(Comic):
             counter += 1
         time.sleep(1)
         # print(number_of_pages)
+
 
 if __name__ == "__main__":
     comic = Comic('life is strange')
