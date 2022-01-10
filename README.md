@@ -13,19 +13,19 @@ The app is still in development
 ## How to use the script step by step 
 ### Step:1 Clone the repository
 	git clone https://github.com/NantawatLaothong/comicScraper.git
-
+	cd comicScraper
 
 ## Step:2 Create a virtual environment for the project
-	python -m venv venv && source venv/bin/activate
+	python3 -m venv venv && source venv/bin/activate
 
 ## Step:3 Install project's dependenies
 	pip install -r requirements.txt 
 
 ## Step:4 run the script
-
 Two ways to run Comic_Scraper 
 Inside of the 'src' directory
-
+	
+	cd src 
 	python main.py "comic title"
 	or 
 	./main.py "comic title"
